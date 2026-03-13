@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# MiniWord Server Stop Script
+echo "🛑 Stopping MiniWord server..."
+
+# Find and kill any running http.server processes
+echo "Looking for running servers..."
+SERVER_PIDS=$(ps aux | grep "http.server" | grep -v grep | awk '{print $2}')
+
+if [ -z "$SERVER_PIDS" ]; then
+    echo "No MiniWord server found running."
+else
+    echo "Found server processes: $SERVER_PIDS"
+    echo "Killing server processes..."
+    kill $SERVER_PIDS
+    sleep 2
+    
+    # Check if processes are still running
+    REMAINING_PIDS=$(ps aux | grep "http.server" | grep -v grep | awk '{print $2}')
+    if [ ! -z "$REMAINING_PIDS" ]; then
+        echo "Force killing remaining processes..."
+        kill -9 $REMAINING_PIDS
+    fi
+fi
+
+# Check if port 8012 is free
+echo "Checking port 8012..."
+PORT_CHECK=$(netstat -tlnp 2>/dev/null | grep ":8012" || lsof -i :8012 2>/dev/null)
+if [ -z "$PORT_CHECK" ]; then
+    echo "✅ Port 8012 is now free"
+else
+    echo "⚠️  Port 8012 may still be in use:"
+    echo "$PORT_CHECK"
+fi
+
+echo "🛑 MiniWord server stopped successfully!"
+echo ""
+echo "To start the server again, run: ./start.sh"
