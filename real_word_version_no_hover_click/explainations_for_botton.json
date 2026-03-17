@@ -442,8 +442,7 @@
             "usage": [
               "1. Click the 'Format' section",
               "2. Click the Bold Format icon",
-              "3. Select the text in the document you want to make bold",
-              "4. Click 'Apply Bold (Ctrl+B) button, the text will become bold"
+              "3. Click 'Apply Bold to Text (Ctrl+B) button to bold the selected text. Click 'Bold table border only' button to bold only the borders of the current table. Click 'Bold whole table' button to bold all text and borders in the current table."
             ],
             "shortcut": "Ctrl+B"
           },
